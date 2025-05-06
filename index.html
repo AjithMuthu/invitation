@@ -1,135 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Engagement Invitation</title>
+
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: #fdf2f8;
-      font-family: sans-serif;
-      overflow-x: hidden;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{
+      height:100%;
+      background:#fdf2f8;
+      font-family:Arial,Helvetica,sans-serif;
+      overflow:hidden;
     }
 
-    .wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
+    /* ---------- CENTER THE STACK ---------- */
+    .wrapper{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
     }
 
-    .container {
-      position: relative;
-      width: 100%;
-      max-width: 350px;
-      aspect-ratio: 4 / 3;
-      overflow: visible;
+    /* ---------- ENVELOPE / INVITE ---------- */
+    .container{
+      position:relative;
+      width:min(340px,90vw);   /* phone-friendly max width */
+    }
+    .envelope{
+      position:absolute;inset:0;
+      background:url('envelope.png') center/cover no-repeat;
+      cursor:pointer;
+      transition:opacity .8s ease;
+      z-index:2;
+    }
+    .invitation{
+      width:100%;             /* ← full-bleed, no frame around it */
+      border-radius:8px;
+      box-shadow:0 4px 12px rgba(0,0,0,.15);
+      transform:scale(.55);
+      opacity:0;
+      transition:transform .8s ease,opacity .8s ease;
+      z-index:1;
+      display:block;
     }
 
-    .envelope {
-      width: 100%;
-      height: 100%;
-      background-image: url('envelope.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      transition: opacity 1s ease;
-      z-index: 2;
-    }
+    /* ---------- STATE CHANGES ---------- */
+    .open .envelope{opacity:0;pointer-events:none;}
+    .open .invitation{opacity:1;transform:scale(1);}
 
-    .invitation {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 90%;
-      max-width: 300px;
-      transform: translate(-50%, -50%) scale(0.5);
-      opacity: 0;
-      transition: transform 0.8s ease, opacity 0.8s ease;
-      z-index: 1;
+    /* ---------- BUTTON BAR ---------- */
+    .btn-bar{
+      margin-top:1rem;
+      display:flex;
+      justify-content:center;
+      gap:.9rem;
+      opacity:0;
+      transition:opacity .6s ease;
     }
+    .btn-bar.show{opacity:1;}
 
-    .open .envelope {
-      opacity: 0;
+    .btn{
+      background:#89516d;
+      color:#fff;
+      font-size:.7rem;
+      font-weight:600;
+      padding:5px 12px;
+      border:none;
+      border-radius:5px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      white-space:nowrap;
+      transition:background .25s ease,transform .25s ease;
     }
+    .btn:hover{background:#6e4058;transform:translateY(-2px);}
+    .btn:focus-visible{outline:2px solid #f8bbd0;outline-offset:2px;}
 
-    .open .invitation {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.05);
-    }
-
-    .map-calendar-container {
-      margin-top: 40px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      opacity: 0;
-      transition: opacity 1s ease;
-      flex-wrap: wrap;
-    }
-
-    .map-calendar-container.show {
-      opacity: 1;
-    }
-
-    .map-button, .calendar-btn {
-      background-color: #89516d;
-      padding: 10px 16px;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85em;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color 0.3s;
-    }
-
-    .map-button:hover,
-    .calendar-btn:hover {
-      background-color: #a4587d;
+    /* STACK BUTTONS ON VERY SMALL SCREENS */
+    @media (max-width:380px){
+      .btn-bar{flex-direction:column;gap:.6rem;}
+      .btn{justify-content:center;}
     }
   </style>
 </head>
 <body>
 
   <div class="wrapper">
+    <!-- envelope / invitation -->
     <div class="container" id="envelopeContainer">
       <div class="envelope"></div>
       <img src="invitation.jpg" alt="Invitation" class="invitation">
     </div>
 
-    <div class="map-calendar-container" id="infoButtons">
-      <a href="https://www.google.com/maps/place/Sadguru+CSR+PALACE/@13.0961612,77.5452651,17z" target="_blank" class="map-button">
-        📍 Get Directions
+    <!-- buttons -->
+    <div class="btn-bar" id="infoButtons">
+      <a href="https://maps.app.goo.gl/cwsiUbtsPYxdDcKk6" target="_blank" class="btn">
+        📍 Directions
       </a>
-      <a href="engagement_event.ics" download class="calendar-btn">
-        📅 Add to Calendar
+      <a href="engagement_event.ics" download class="btn">
+        📅 Calendar
       </a>
     </div>
   </div>
 
   <script>
-    let clickCount = 0;
-    const envelopeContainer = document.getElementById("envelopeContainer");
-    const infoButtons = document.getElementById("infoButtons");
+    let clicks = 0;
+    const envelopeContainer = document.getElementById('envelopeContainer');
+    const infoButtons       = document.getElementById('infoButtons');
 
-    envelopeContainer.addEventListener("click", function () {
-      clickCount++;
-      if (clickCount === 1) {
-        this.classList.add("open");
-      } else if (clickCount === 2) {
-        infoButtons.classList.add("show");
+    envelopeContainer.addEventListener('click', () => {
+      clicks++;
+      if (clicks === 1){
+        envelopeContainer.classList.add('open');  // flip envelope away
+      } else if (clicks === 2){
+        infoButtons.classList.add('show');        // reveal buttons
       }
     });
   </script>
-
 </body>
 </html>
