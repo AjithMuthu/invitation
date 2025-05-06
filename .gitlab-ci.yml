@@ -1,10 +1,1 @@
-pages:
-  stage: deploy
-  script:
-    - mkdir public
-    - cp -r invitation/* public/
-  artifacts:
-    paths:
-      - public
-  only:
-    - main
+
