@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Engagement Invitation</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #fdf2f8;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      transform: scale(1.18); /* Scale up by 25% */
+      transform-origin: top center;
+    }
+
+
+    .container {
+      position: relative;
+      width: 500px;
+      height: 375px;
+      overflow: visible;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background-image: url('envelope.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: opacity 1s ease;
+      z-index: 2;
+    }
+
+    .invitation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 320px;
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      z-index: 1;
+    }
+
+    .open .envelope {
+      opacity: 0;
+    }
+
+    .open .invitation {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .map-calendar-container {
+      margin-top: 75px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+      opacity: 0;
+      transition: opacity 1s ease;
+      justify-content: center;
+      gap: 20px;  
+    }
+
+    
+    .map-calendar-container.show {
+      opacity: 1;
+    }
+
+    .map-button, .calendar-btn {
+      background-color: #89516d;
+      padding: 6px 14px;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .map-button:hover,
+    .calendar-btn:hover {
+      background-color: #89516d;
+    }
+
+    .calendar-btn {
+      background-color: #89516d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <div class="container" id="envelopeContainer">
+      <div class="envelope"></div>
+      <img src="invitation.jpg" alt="Invitation" class="invitation">
+    </div>
+
+    <div class="map-calendar-container" id="infoButtons">
+      <a href="https://www.google.com/maps/place/Sadguru+CSR+PALACE/@13.0961612,77.5452651,17z/data=!3m1!4b1!4m6!3m5!1s0x3bae2378591bf137:0x8c9037f564a3b048!8m2!3d13.0961612!4d77.54784!16s%2Fg%2F11lzw26qtb?entry=tts&g_ep=EgoyMDI1MDQzMC4xIPu8ASoASAFQAw%3D%3D&skid=0404759b-a620-4ede-bec3-ad4389d68a20" target="_blank" class="map-button">
+        📍 Get Directions
+      </a>
+      <a href="engagement_event.ics" download class="calendar-btn">
+        📅 Add to Calendar
+      </a>
+    </div>
+  </div>
+
+  <script>
+    let clickCount = 0;
+    const envelopeContainer = document.getElementById("envelopeContainer");
+    const infoButtons = document.getElementById("infoButtons");
+
+    envelopeContainer.addEventListener("click", function () {
+      clickCount++;
+      if (clickCount === 1) {
+        this.classList.add("open");
+      } else if (clickCount === 2) {
+        infoButtons.classList.add("show");
+      }
+    });
+  </script>
+
+</body>
+</html>
