@@ -10,8 +10,13 @@ DESCRIPTION:Join us in celebrating the engagement of Suchitra Muthu and K Surend
 STATUS:CONFIRMED
 SEQUENCE:0
 BEGIN:VALARM
-TRIGGER:-PT30M
-DESCRIPTION:Reminder
+TRIGGER:-P1D
+DESCRIPTION:Reminder - 24 hours before the event
+ACTION:DISPLAY
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT8H
+DESCRIPTION:Reminder - 8 hours before the event
 ACTION:DISPLAY
 END:VALARM
 END:VEVENT
