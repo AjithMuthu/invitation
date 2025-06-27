@@ -3,7 +3,7 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 SUMMARY:Wedding Reception of Suchitra & Karthik
-DTSTART;TZID=Asia/Kolkata:202500706T180000
+DTSTART;TZID=Asia/Kolkata:20250706T180000
 DTEND;TZID=Asia/Kolkata:20250706T220000
 LOCATION:Urvi By Aralaguppe Conventions, R.M.V. 2nd Stage, Bengaluru, Karnataka 560094, India
 DESCRIPTION:Join us in celebrating the Reception of Suchitra Muthu and K Surender Karthik.
